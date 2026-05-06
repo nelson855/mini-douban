@@ -3,3 +3,5 @@ target/
 .m2/
 .idea/
 .chat/
+.claude/
+.codex
