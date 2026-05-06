@@ -1,0 +1,5 @@
+.worktrees/
+target/
+.m2/
+.idea/
+.chat/
