@@ -1,0 +1,11 @@
+INSERT INTO movies (title, director, release_year, poster_url, synopsis) VALUES
+('The Shawshank Redemption', 'Frank Darabont', 1994, 'https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg', 'Two imprisoned men bond over years, finding solace and eventual redemption through acts of decency.'),
+('Farewell My Concubine', 'Chen Kaige', 1993, 'https://image.tmdb.org/t/p/w500/5JcXw2mLA7L9y6gxyx8YqzP1Q7h.jpg', 'Two opera performers navigate art, loyalty, and political upheaval across decades of modern Chinese history.'),
+('Inception', 'Christopher Nolan', 2010, 'https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg', 'A skilled thief enters dreams to steal secrets and is offered a chance to regain his life by planting an idea.'),
+('Spirited Away', 'Hayao Miyazaki', 2001, 'https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg', 'A young girl enters a mysterious spirit world and must find courage to save her parents and return home.'),
+('Parasite', 'Bong Joon-ho', 2019, 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg', 'A struggling family becomes entangled with a wealthy household in a sharp story of class and deception.'),
+('Interstellar', 'Christopher Nolan', 2014, 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', 'Explorers travel through a wormhole to search for a future home for humanity.'),
+('The Godfather', 'Francis Ford Coppola', 1972, 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg', 'The aging patriarch of a crime dynasty transfers control to his reluctant son.'),
+('Chungking Express', 'Wong Kar-wai', 1994, 'https://image.tmdb.org/t/p/w500/43I9DcNoCzpyzK8JCkJYpHqHqGG.jpg', 'Two Hong Kong policemen experience love, loneliness, and chance encounters in neon-lit city nights.'),
+('Coco', 'Lee Unkrich', 2017, 'https://image.tmdb.org/t/p/w500/gGEsBPAijhVUFoiNpgZXqRVWJt2.jpg', 'A young musician journeys into the Land of the Dead and discovers the stories behind his family.'),
+('The Wandering Earth', 'Frant Gwo', 2019, 'https://image.tmdb.org/t/p/w500/kkOEf2x8d1i5YQWkQfC7zpt2S3g.jpg', 'Humanity builds giant engines to move Earth away from an expanding sun, risking everything for survival.');
