@@ -102,7 +102,7 @@
 - 纯 SQL 语法，比 Liquibase 的 XML/YAML 直观
 
 **与 H2 配合的注意点**：
-- Spring Boot 3.2+ 默认使用 Flyway 10+，H2 支持需要单独引入 `flyway-database-h2` 模块，否则启动会报 `No database found to handle` 错误
+- H2 与 SQLite 作为嵌入式数据库，在 Flyway 10 的模块拆分中**保留在 `flyway-core` 内**，不需要额外的 `flyway-database-*` 模块；只有 PostgreSQL、MySQL、Oracle 等非嵌入式数据库才需要引入独立模块
 - 写 SQL 尽量用 PostgreSQL 标准语法（如 `BIGSERIAL`、`TIMESTAMP DEFAULT CURRENT_TIMESTAMP`），避免 H2 特有写法，保证未来切换无痛
 - Flyway 默认禁止修改已执行过的迁移（校验哈希）；v0.1 调试期如果想重做 schema，删掉 `backend/data/` 整个目录后重启即可全新开始——在单人学习阶段这是合法操作
 

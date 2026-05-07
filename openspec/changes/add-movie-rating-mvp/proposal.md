@@ -30,7 +30,7 @@ mini-douban 是一个从零开始的个人学习项目，目标是让一名 Java
 - **代码**：首次提交，新增 `backend/`（Maven 项目）与 `frontend/`（Vite 项目）两个子目录
 - **数据库**：使用 H2 嵌入式数据库（file 模式，数据持久化到 `backend/data/`），开启 `MODE=PostgreSQL` 兼容模式以便未来平滑迁移到 PostgreSQL；包含 `users`、`movies`、`ratings` 三张表
 - **依赖**：
-  - 后端：Spring Boot 3.x、Spring Security 6、Spring Data JPA、Flyway Core、`flyway-database-h2`（Flyway 10+ 的 H2 支持模块）、H2 数据库（嵌入式）、Lombok、jjwt（或 Spring Security 内置 JWT 支持）
+  - 后端：Spring Boot 3.x、Spring Security 6、Spring Data JPA、Flyway Core、H2 数据库（嵌入式）、Lombok、jjwt（或 Spring Security 内置 JWT 支持）
   - 前端：Vue 3、TypeScript、Vite、Vue Router 4、Pinia、Axios、Element Plus
 - **不引入**：Redis、消息队列、Elasticsearch、Docker、Nginx、SSR、SCSS 预处理器
 - **本地运行要求**：JDK 21、Node.js 20+。数据库使用 H2 嵌入式（无需独立安装），通过 H2 浏览器控制台（`/h2-console`）查看数据
