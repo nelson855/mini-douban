@@ -6,7 +6,7 @@
 
 **架构：** 创建 `backend/`、`frontend/`、`docs/` 三个子目录组成的 monorepo。后端使用 Java 21 + Spring Boot 3，按领域分包（`user`、`auth`、`movie`、`rating`、`common`），通过 Flyway 管理 H2 file 模式数据库，使用 JWT 做无状态鉴权。前端使用 Vue 3 + TypeScript + Vite，配合 Pinia、Vue Router、Axios、Element Plus 完成基础交互。
 
-**技术栈：** Java 21、Maven、Spring Boot 3.x、Spring Web MVC、Spring Data JPA、Spring Security 6、Flyway、H2、JJWT、Vue 3、TypeScript、Vite、Pinia、Axios、Vue Router 4、Element Plus。
+**技术栈：** Java 21、Maven、Spring Boot 3.x、Spring Web MVC、Spring Data JPA、Spring Security 6、Flyway Core、H2、JJWT、Vue 3、TypeScript、Vite、Pinia、Axios、Vue Router 4、Element Plus。
 
 ---
 
@@ -26,7 +26,7 @@
 
 需要创建或修改的主要区域：
 
-- `backend/pom.xml`：Maven 项目与依赖。
+- `backend/pom.xml`：Maven 项目与依赖；H2 使用 `flyway-core` 支持，不引入 `flyway-database-h2`。
 - `backend/src/main/resources/application.yml`：H2 file 数据库、Flyway、JWT、H2 console 配置。
 - `backend/src/main/resources/db/migration/*.sql`：Flyway schema 与种子数据。
 - `backend/src/main/java/com/minidouban/MiniDoubanApplication.java`：Spring Boot 启动类。
@@ -62,7 +62,6 @@
   <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-security</artifactId></dependency>
   <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-validation</artifactId></dependency>
   <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-core</artifactId></dependency>
-  <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-database-h2</artifactId><version>${flyway.version}</version></dependency>
   <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><scope>runtime</scope></dependency>
   <dependency><groupId>io.jsonwebtoken</groupId><artifactId>jjwt-api</artifactId><version>${jjwt.version}</version></dependency>
   <dependency><groupId>io.jsonwebtoken</groupId><artifactId>jjwt-impl</artifactId><version>${jjwt.version}</version><scope>runtime</scope></dependency>
@@ -119,9 +118,13 @@ public class MiniDoubanApplication {
 
 - [ ] **步骤 4：运行编译**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
 
-预期：构建进入 Spring context 启动阶段，并因为 Flyway 迁移和实体尚未创建而失败。
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
+
+预期：依赖解析通过，构建进入 Spring context 启动阶段，并因为 Flyway 迁移和实体尚未创建而失败。
 
 - [ ] **步骤 5：提交**
 
@@ -169,7 +172,11 @@ class MiniDoubanApplicationTests {
 
 - [ ] **步骤 2：运行测试确认失败**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：失败原因是控制器、实体、迁移和安全配置尚未实现。
 
@@ -236,7 +243,11 @@ CREATE TABLE ratings (
 
 - [ ] **步骤 5：通过测试触发迁移**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：仍然失败，因为 Java 实体和控制器尚未实现；但 Flyway 不应再是根因。
 
@@ -289,7 +300,11 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 
 - [ ] **步骤 3：运行测试**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：失败推进到缺少 API 或安全相关类。
 
@@ -326,7 +341,11 @@ public record ApiError(String code, String message) {}
 
 - [ ] **步骤 3：运行测试**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：仍失败，直到控制器和服务开始抛出这些异常。
 
@@ -388,7 +407,11 @@ git commit -m "feat: add common api error handling"
 
 - [ ] **步骤 6：运行测试**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：鉴权相关流程通过；电影和评分接口可能仍失败。
 
@@ -453,7 +476,11 @@ public record RatingResponse(Long movieId, Integer myScore, BigDecimal averageSc
 
 - [ ] **步骤 6：运行后端测试**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：`MiniDoubanApplicationTests.movieRatingMvpFlowWorks` 通过。
 
@@ -619,7 +646,7 @@ git commit -m "feat: add movie rating frontend"
 
 - [ ] **步骤 4：编写学习笔记**
 
-记录：H2 + Flyway 10 需要 `flyway-database-h2`；PowerShell execution policy 拦截时使用 `npm.cmd`、`openspec.cmd`；v0.1 的 JWT 登出只是前端清除 token。
+记录：H2 与 SQLite 作为嵌入式数据库，在 Flyway 10 的模块拆分中仍由 `flyway-core` 支持，不需要 `flyway-database-h2`；PowerShell execution policy 拦截时使用 `npm.cmd`、`openspec.cmd`；项目 Maven 命令使用 `D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml` 与 `D:\software\apache\apache-maven-3.8.1\repository`；v0.1 的 JWT 登出只是前端清除 token。
 
 - [ ] **步骤 5：提交**
 
@@ -635,7 +662,11 @@ git commit -m "docs: add local setup notes"
 
 - [ ] **步骤 1：运行后端测试**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" test`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" test
+```
 
 预期：构建成功，所有后端测试通过。
 
@@ -647,7 +678,11 @@ git commit -m "docs: add local setup notes"
 
 - [ ] **步骤 3：启动后端**
 
-运行：`mvn "-Dmaven.repo.local=.m2/repository" spring-boot:run`
+运行：
+
+```powershell
+mvn -s "D:\software\apache\apache-maven-3.8.1\conf\settings-codex.xml" "-Dmaven.repo.local=D:\software\apache\apache-maven-3.8.1\repository" spring-boot:run
+```
 
 预期：后端监听 `http://localhost:8080`，Flyway 迁移完成，H2 console 可通过 `http://localhost:8080/h2-console` 访问。
 
@@ -683,10 +718,10 @@ git commit -m "chore: mark movie rating mvp tasks complete"
 
 ## 自检
 
-- 规格覆盖：本计划覆盖用户注册/登录、JWT 鉴权、电影列表与详情、评分提交与更新、Flyway 数据模型、H2 持久化、CORS、前端登录态、文档要求。
+- 规格覆盖：本计划覆盖用户注册/登录、JWT 鉴权、电影列表与详情、评分提交与更新、Flyway Core 数据库迁移、H2 持久化、CORS、前端登录态、文档要求。
 - 占位扫描：没有使用 TBD、TODO、fill later 等占位式表达；关键步骤包含明确文件路径、命令和预期结果。
 - 类型一致性：DTO 名称、接口路径、包名、响应字段与 OpenSpec 的 camelCase 要求一致。
-- 设计修正：`docs/local-setup.md` 应记录 H2，而不是 PostgreSQL，因为已接受的 v0.1 设计明确使用 H2 file 模式，PostgreSQL 留到后续版本。
+- 设计修正：`docs/local-setup.md` 应记录 H2，而不是 PostgreSQL，因为已接受的 v0.1 设计明确使用 H2 file 模式，PostgreSQL 留到后续版本；H2 不需要 `flyway-database-h2`，只保留 `flyway-core`。
 
 ## 执行交接
 
