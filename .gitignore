@@ -5,3 +5,7 @@ target/
 .chat/
 .claude/
 .codex
+backend/target/
+backend/data/
+frontend/node_modules/
+frontend/dist/
